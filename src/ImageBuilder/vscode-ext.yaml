@@ -1,0 +1,34 @@
+name: VS Code Extensions
+description: Installs VS Code Extensions
+schemaVersion: 1.0
+
+phases:
+  - name: build
+    steps:
+      - name: PrepForExtensions
+        action: ExecuteBash
+        inputs:
+          commands:
+            - mkdir -p /home/ec2-user/.local/share/code-server/extensions
+            - chown -R ec2-user:ec2-user /home/ec2-user/.local
+            - yum install -y jq
+
+      - name: InstallExtensions
+        action: ExecuteBash
+        inputs:
+          commands:
+            - export SERVICE_URL=https://marketplace.visualstudio.com/_apis/public/gallery
+            - export NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-bundle.crt
+            - /usr/local/bin/code-server --extensions-dir /home/ec2-user/.local/share/code-server/extensions --install-extension aws-amplify.aws-amplify-vscode
+            - /usr/local/bin/code-server --extensions-dir /home/ec2-user/.local/share/code-server/extensions --install-extension kddejong.vscode-cfn-lint
+            - /usr/local/bin/code-server --extensions-dir /home/ec2-user/.local/share/code-server/extensions --install-extension ms-vscode.Go
+            - /usr/local/bin/code-server --extensions-dir /home/ec2-user/.local/share/code-server/extensions --install-extension ms-python.python
+            - /usr/local/bin/code-server --extensions-dir /home/ec2-user/.local/share/code-server/extensions --install-extension donjayamanne.python-extension-pack
+            - /usr/local/bin/code-server --extensions-dir /home/ec2-user/.local/share/code-server/extensions --install-extension amazonwebservices.aws-toolkit-vscode
+            # This is needed for the AWS Ext.
+            - mkdir -p /home/ec2-user/.local/share/code-server/User/globalStorage/amazonwebservices.aws-toolkit-vscode
+      - name: Cleanup
+        action: ExecuteBash
+        inputs:
+          commands:
+            - chown -R ec2-user:ec2-user /home/ec2-user/.local

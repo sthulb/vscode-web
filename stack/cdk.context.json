@@ -1,0 +1,10 @@
+{
+  "@aws-cdk/core:enableStackNameDuplicates": "true",
+  "aws-cdk:enableDiffNoFail": "true",
+  "availability-zones:account=409303902518:region=eu-west-1": [
+    "eu-west-1a",
+    "eu-west-1b",
+    "eu-west-1c"
+  ],
+  "ami:account=409303902518:filters.image-type.0=machine:filters.name.0=ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-*:filters.state.0=available:region=eu-west-1": "ami-035966e8adab4aaad"
+}

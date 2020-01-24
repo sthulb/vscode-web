@@ -1,0 +1,56 @@
+name: Code Server
+description: Installs Code Server
+schemaVersion: 1.0
+
+phases:
+  - name: build
+    steps:
+      - name: Prep
+        action: ExecuteBash
+        inputs:
+          commands:
+            - mkdir -p /home/ec2-user/project
+            - chown ec2-user:ec2-user /home/ec2-user/project
+
+      - name: Download
+        action: ExecuteBash
+        inputs:
+          commands:
+            - wget https://github.com/cdr/code-server/releases/download/2.1692-vsc1.39.2/code-server2.1692-vsc1.39.2-linux-x86_64.tar.gz -O /tmp/code-server.tar.gz
+
+      - name: Install
+        action: ExecuteBash
+        inputs:
+          commands:
+            - tar zxf /tmp/code-server.tar.gz -C /tmp
+            - cp /tmp/code-server2.1692-vsc1.39.2-linux-x86_64/code-server /usr/local/bin/code-server
+
+      - name: systemd-service
+        action: ExecuteBash
+        inputs:
+          commands:
+            - |
+              cat > /etc/systemd/system/code-server.service <<EOF
+              [Unit]
+              Description=Code Server IDE
+              After=network.target
+              
+              [Service]
+              Type=simple
+              User=ec2-user
+              Environment=SERVICE_URL=https://marketplace.visualstudio.com/_apis/public/gallery
+              Environment=PASSWORD=ericlovespineapplepizza
+              Environment=NODE_EXTRA_CA_CERTS=/etc/ssl/certs/ca-bundle.crt
+              WorkingDirectory=/home/ec2-user/project
+              Restart=on-failure
+              RestartSec=10
+              
+              ExecStart=/usr/local/bin/code-server /home/ec2-user/project
+              
+              StandardOutput=file:/var/log/code-server-output.log
+              StandardError=file:/var/log/code-server-error.log
+              
+              [Install]
+              WantedBy=multi-user.target
+              EOF
+            - systemctl enable code-server

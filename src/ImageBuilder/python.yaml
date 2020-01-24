@@ -1,0 +1,14 @@
+name: Python 3
+description: Installs Python 3
+schemaVersion: 1.0
+
+phases:
+  - name: build
+    steps:
+      - name: Install
+        action: ExecuteBash
+        inputs:
+          commands:
+            - yum install -y python3 python3-pip python3-devel
+
+

@@ -1,0 +1,12 @@
+name: CFN Lint
+description: Install CFN Lint 
+schemaVersion: 1.0
+
+phases:
+  - name: build
+    steps:
+      - name: Install
+        action: ExecuteBash
+        inputs:
+          commands:
+            - pip3 install cfn-lint

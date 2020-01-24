@@ -1,0 +1,12 @@
+name: Build Tools
+description: Installs 'Build tools' group
+schemaVersion: 1.0
+
+phases:
+  - name: build
+    steps:
+      - name: Install
+        action: ExecuteBash
+        inputs:
+          commands:
+            - yum group install -y "Development Tools"

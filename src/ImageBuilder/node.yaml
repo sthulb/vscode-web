@@ -1,0 +1,20 @@
+name: Node
+description: Install node
+schemaVersion: 1.0
+
+phases:
+  - name: build
+    steps:
+      - name: Download
+        action: ExecuteBash
+        inputs:
+          commands:
+            - wget https://nodejs.org/dist/v12.14.1/node-v12.14.1-linux-x64.tar.xz -O /tmp/nodejs.tar.xz
+      - name: Install
+        action: ExecuteBash
+        inputs:
+          commands:
+            - mkdir -p /usr/local/node
+            - tar xf /tmp/nodejs.tar.xz -C /usr/local/node --strip-components=1
+            - ln -sf /usr/local/node/bin/node /usr/local/bin/node
+            - ln -sf /usr/local/node/bin/npm /usr/local/bin/npm

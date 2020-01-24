@@ -1,0 +1,12 @@
+name: Git
+description: Install Git
+schemaVersion: 1.0
+
+phases:
+  - name: build
+    steps:
+      - name: HelloWorldStep
+        action: ExecuteBash
+        inputs:
+          commands:
+            - yum install -y git
