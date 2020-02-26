@@ -46,10 +46,11 @@ create_infra_config() {
     printf "\nSkipping security group –– Already exists\n"
   fi
 
-  roleArn=$(aws iam get-role --role-name code-server | jq -r '.Role.Arn')
-  if [ "x${roleArn}" == "xnull" ]; then
+  aws iam get-role --role-name code-server > /dev/null 2>&1
+  RES=$?
+  if [ $RES -eq 254 ]; then
     printf "\nCreating IAM role\n"
-    aws iam create-role --role-name code-server --assume-role-policy-document '{"Version": "2012-10-17","Statement": [{"Effect": "Allow","Principal": {"Service": ["ec2.amazonaws.com"]},"Action": ["sts:AssumeRole"]}]}'
+    aws iam create-role --role-name code-server --assume-role-policy-document '{"Version": "2012-10-17","Statement": [{"Effect": "Allow","Principal": {"Service": ["ec2.amazonaws.com"]},"Action": ["sts:AssumeRole"]}]}'  > /dev/null 2>&1
     aws iam attach-role-policy --policy-arn arn:aws:iam::aws:policy/AmazonS3FullAccess --role-name code-server
     aws iam attach-role-policy --policy-arn arn:aws:iam::aws:policy/EC2InstanceProfileForImageBuilder --role-name code-server
     aws iam attach-role-policy --policy-arn arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore --role-name code-server
