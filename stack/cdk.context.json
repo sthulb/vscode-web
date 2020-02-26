@@ -6,5 +6,11 @@
     "eu-west-1b",
     "eu-west-1c"
   ],
-  "ami:account=409303902518:filters.image-type.0=machine:filters.name.0=ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-*:filters.state.0=available:region=eu-west-1": "ami-035966e8adab4aaad"
+  "ami:account=409303902518:filters.image-type.0=machine:filters.name.0=ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-*:filters.state.0=available:region=eu-west-1": "ami-035966e8adab4aaad",
+  "availability-zones:account=411911320643:region=eu-west-1": [
+    "eu-west-1a",
+    "eu-west-1b",
+    "eu-west-1c"
+  ],
+  "ami:account=411911320643:filters.image-type.0=machine:filters.name.0=code-server *:filters.state.0=available:owners.0=411911320643:region=eu-west-1": "ami-00704ac79b24ab744"
 }
